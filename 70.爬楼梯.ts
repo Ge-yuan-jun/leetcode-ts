@@ -23,6 +23,27 @@
  * @returns 
  */
 function climbStairs(n: number): number {
+
+};
+// @lc code=end
+
+/*
+ * 空间换时间
+ * 升维
+ * 找最近重复子问题
+ * 
+ * f(1)：1
+ * f(2)：2
+ * f(3)：f(2) + f(1)
+ * f(4)4：f(2) + f(3)
+ * f(n)：f(n-1) + f(n-2)
+ * 
+ * 实际就是斐波拉切数列
+ * 但如果是递归，时间复杂度较高
+ * @param n 
+ * @returns 
+ */
+function climbStairs4(n: number): number {
   if (n <= 2) {
     return n
   }
@@ -38,7 +59,6 @@ function climbStairs(n: number): number {
   
   return step3
 };
-// @lc code=end
 
 /**
  * 递归写法（leetcode 超出时间限制）
