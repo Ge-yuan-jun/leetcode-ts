@@ -31,6 +31,7 @@
   return result
 }
 
+// 利用回溯算法，记录转换路径
 const dfs = (result, tmpPath, word, endWord, wordMap, distanceMap) => {
   if (word === endWord) {
     result.push([...tmpPath])
@@ -40,21 +41,21 @@ const dfs = (result, tmpPath, word, endWord, wordMap, distanceMap) => {
   for (let nextWord of wordMap.get(word)) {
     if (distanceMap.get(word) === distanceMap.get(nextWord) + 1) {
       tmpPath.push(nextWord)
-      dfs(result, tmpPath, word, endWord, wordMap, distanceMap)
+      dfs(result, tmpPath, nextWord, endWord, wordMap, distanceMap)
       tmpPath.pop()
     }
   }
 }
 
-
 function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
   const wordSet = new Set(wordList)
   wordSet.add(beginWord)
 
+  // 前置条件一
   if (!wordSet.has(endWord)) {
     return []
   }
-
+  
   const distanceMap = new Map()
   const wordMap = new Map()
 
