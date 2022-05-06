@@ -2,7 +2,16 @@
  * @lc app=leetcode.cn id=322 lang=typescript
  *
  * [322] 零钱兑换
- * 使用贪心算法的前提：coins 所有元素必须能整除 amount 
+ * 使用贪心算法的前提：coins 所有元素必须能整除 amount
+ * 
+ * 解法：
+ * 1. 暴力递归：指数级
+ * 2. BFS
+ * 3. DP
+ *    a. subProblems
+ *    b. DP array f(n)=min(f(n-k) (k in coins)) + 1
+ *      1 是面值为 k 的硬币
+ *    c. DP 方程 
  */
 
 // @lc code=start
