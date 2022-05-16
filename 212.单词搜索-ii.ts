@@ -56,30 +56,30 @@ function findWords(board: string[][], words: string[]): string[] {
     trieTree.insert(word)
   }
 
-  const DFS = (i, j, nodes, str) => {
-    if (nodes[board[i][j]].isEnd) {
-      ret.push(`${str}${board[i][j]}`)
+  const DFS = (x, y, nodes, str) => {
+    if (nodes[board[x][y]].isEnd) {
+      ret.push(`${str}${board[x][y]}`)
       // 设置为 false 是为了防止重复将字符串加入 ret 中
-      nodes[board[i][j]].isEnd = false
+      nodes[board[x][y]].isEnd = false
     }
 
     // 处理本层
-    nodes = nodes[board[i][j]]
-    str += board[i][j]
+    nodes = nodes[board[x][y]]
+    str += board[x][y]
 
     // 记录已经访问过的四通位置
-    visited.set(i * 100 + j, true)
+    visited.set(x * 100 + y, true)
 
     for (let i = 0; i < dx.length; i++) {
-      const newI = i + dx[i]
-      const newJ = j + dy[i]
+      const newI = x + dx[i]
+      const newJ = y + dy[i]
       // 处理四通边界情况
       if (newI < 0 || newJ < 0 || newI >= m || newJ >= n || visited.get(newI * 100 + newJ) || !nodes[board[newI][newJ]]) {
         continue
       }
       DFS(newI, newJ, nodes, str)
     }
-    visited.set(i * 100 + j, false)
+    visited.set(x * 100 + y, false)
   }
 
   for (let i = 0; i < m; i++) {
