@@ -5,42 +5,51 @@
  */
 
 // @lc code=start
-const find = (parent, index) => {
-  if (parent[index] === index) {
-    return index
-  } else {
-    // 进行路径压缩
-    parent[index] = find(parent, parent[index])
-    return parent[index]
+class UnionFind {
+  constructor(n) {
+      this.parent = [...Array(n)].map((_ele, index) => index)
+      this.groups = n
   }
-}
-
-const union = (parent, i, j) => {
-  parent[find(parent, i)] = find(parent, j)
+  
+  parent
+  
+  groups = 0
+  
+  find(id) {
+      if (this.parent[id] === id) {
+          return id
+      }
+      
+      this.parent[id] = this.find(this.parent[id])
+      
+      return this.parent[id]
+  }
+  
+  union(i, j) {
+      const rootI = this.find(i)
+      const rootJ = this.find(j)
+      if (rootI === rootJ) {
+          return
+      }
+      this.parent[rootI] = rootJ
+      this.groups--
+  }
 }
 
 function findCircleNum(isConnected: number[][]): number {
-  const cities = isConnected.length
-  // init 并查集
-  const parent = new Array(cities).fill(0).map((_element, index) => index)
-
-  for (let i = 0; i < cities; i++) {
-    for (let j = i + 1; j < cities; j++) {
-      if (isConnected[i][j] === 1) {
-        union(parent, i, j)
+  const len = isConnected.length
+  
+  const UF = new UnionFind(len)
+  
+  for (let i = 0; i < len; i++) {
+      for (let j = i + 1; j < len; j++) {
+          if (isConnected[i][j] === 1) {
+              UF.union(i, j)
+          }
       }
-    }
   }
-
-  let provinces = 0
-
-  parent.forEach((element, index) => {
-    if (element === index) {
-      provinces++
-    }
-  })
-
-  return provinces
+  
+  return UF.groups
 };
 // @lc code=end
 

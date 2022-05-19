@@ -5,89 +5,88 @@
  */
 
 // @lc code=start
+class UnionFind {
+  constructor(grid) {
+    const m =  grid.length
+    const n = grid[0].length
+    this.parent = {}
+    
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (grid[i][j] === '1') {
+          const id = `${i}_${j}`
+          this.parent[id] = id       
+        }
+      }   
+    }
+  }
+  
+  parent
+  
+  find(id) {
+    if (this.parent[id] === id) {
+      return id
+    }
+    this.parent[id] = this.find(this.parent[id])
+    return this.parent[id]
+  }
+  
+  union(x, y) {
+    const rootX = this.find(x)
+    const rootY = this.find(y)
+    
+    if (rootX === rootY) {
+      return
+    }
+    
+    this.parent[rootY] = rootX
+  }
+}
+
 function numIslands(grid: string[][]): number {
-  if (grid.length === 0) {
+  if (!grid.length) {
     return 0
   }
-    
-  const parent = {}
-
-  const m = grid.length
+  
+  const m =  grid.length
   const n = grid[0].length
-
-  const DIRS = [[0,-1], [0,1], [-1, 0], [1,0]]
-
-  class UnionFind {
-    constructor() {
-      // 初始化并查集
-      for (let i = 0; i < m; i++) {
-        for (let j = 0; j < n; j++) {
-          if (grid[i][j] === '1') {
-            const id = `${i}_${j}`
-            parent[id] = id
-            this.size[id] = 1
-          }
-        }
-      }
-    }
-
-    size = {}
-
-    find(id) {
-      if (parent[id] === id) {
-        return id
-      }
-      // 路径扁平化
-      parent[id] = this.find(parent[id])
-      return parent[id]
-    }
-
-    union(x, y) {
-      const rootX = this.find(x)
-      const rootY = this.find(y)
-
-      if (rootX === rootY) {
-        return
-      }
-
-      if (this.size[rootX] > this.size[rootY]) {
-        this.size[rootX] += this.size[rootY]
-        parent[rootY] = rootX
-      } else {
-        this.size[rootY] += this.size[rootX]
-        parent[rootX] = rootY
-      }
-    }
-  }
-
-  const UF = new UnionFind()
-
-  for (let i = 0; i < m; i++){
-    for (let j = 0; j < n; j++){
-      if (grid[i][j] === '1'){
-        let id = `${i}_${j}`;
-        for (let dir of DIRS) {
-          let ni = i+dir[0];
-          let nj = j+dir[1];
-          if (ni >= 0 && ni < m && nj >= 0 && nj < n) {
-            let nId = `${ni}_${nj}`
-            if (grid[ni][nj] === '1') {
-              UF.union(id, nId)
-            }
+  
+  const UF = new UnionFind(grid)
+  
+  const dires = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1]
+  ]
+  
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (grid[i][j] === '1') {
+        const id = `${i}_${j}`
+        for (let dire of dires) {
+          const newI = i + dire[0]
+          const newJ = j + dire[1]
+          if (newI >= 0 && newI < m && newJ >= 0 && newJ < n) {
+            const newId = `${newI}_${newJ}`
+            if (grid[newI][newJ] === '1') {
+              UF.union(id, newId)
+            }   
           }
         }
       }
     }
   }
-
+  
   const rootSet = new Set()
-
-  for (let child in parent){
-    let root = UF.find(child)
+  
+  for (let child in UF.parent) {
+    const root = UF.find(child)
     if (!rootSet.has(root)) {
       rootSet.add(root)
     }
   }
+  
   return rootSet.size
 };
 // @lc code=end
