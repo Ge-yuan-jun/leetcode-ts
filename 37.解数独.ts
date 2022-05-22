@@ -18,11 +18,26 @@ const isValid = (board, row, col, val) => {
       return false
     }
 
-    const curRow = blockRow + Math.floor(i/3)
-    const curCol = blockCol + (i % 3)
+    /**
+     * 验证 3*3 的数独里面有没有同样的值
+     * 下面是第一种验证方法
+     */
+    // const curRow = blockRow + Math.floor(i/3)
+    // const curCol = blockCol + (i % 3)
 
-    if (board[curRow][curCol] === val) {
-      return false
+    // if (board[curRow][curCol] === val) {
+    //   return false
+    // }
+  }
+
+  /**
+   * 这是第二种雁阵方法，将 3*3 的方框内的数值全部遍历一遍
+   */
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (board[blockRow + i][blockCol + j] == val) {
+        return false
+      }
     }
   }
 
@@ -55,6 +70,6 @@ function solveSudoku(board: string[][]): void {
   }
 
   backTracking(board)
-};
+}
 // @lc code=end
 
