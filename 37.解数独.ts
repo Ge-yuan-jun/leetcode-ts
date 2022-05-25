@@ -21,6 +21,8 @@ const isValid = (board, row, col, val) => {
     /**
      * 验证 3*3 的数独里面有没有同样的值
      * 下面是第一种验证方法
+     * 3 * Math.floor(i/3) and 3 * Math.floor(j/3) are the coordinates for 
+		 * the top-left square of the 3x3 grid that the value is in
      */
     // const curRow = blockRow + Math.floor(i/3)
     // const curCol = blockCol + (i % 3)
