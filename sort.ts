@@ -98,7 +98,7 @@ const mergeSort = (arr: number[], left: number, right: number) => {
 const merge = (arr: number[], left: number, mid: number, right: number) => {
   const temp = new Array(right - left  + 1).fill(0)
 
-  let i = 0, j = mid + 1, k = 0
+  let i = left, j = mid + 1, k = 0
 
   while (i <= mid && j <= right) {
     temp[k++] = arr[i] < arr[j] ? arr[i++] : arr[j++]
