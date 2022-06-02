@@ -7,6 +7,13 @@
 // @lc code=start
 function longestValidParentheses(s: string): number {
   let ans = 0
+  /**
+   * 哨兵节点
+   * 
+   * 如果一开始栈为空，第一个字符为左括号的时候我们会将其放入栈中
+   * 这样就不满足「最后一个没有被匹配的右括号的下标」 
+   * 为了保持统一，我们在一开始的时候往栈中放入一个值为 -1 的元素
+   */
   const stack = [-1]
 
   for (let i = 0; i < s.length; i++) {
@@ -17,6 +24,8 @@ function longestValidParentheses(s: string): number {
       if (!stack.length) {
         stack.push(i)
       } else {
+        // 通过位置差值得出相邻对象间可能被消除了多少对括号
+        // i - stack[stack.length - 1]
         ans = Math.max(ans, i - stack[stack.length - 1])
       }
     }
